@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualBasic;
 using System.Runtime.InteropServices;
+using System.Transactions;
 
 namespace AddressBook
 {
@@ -121,6 +122,32 @@ namespace AddressBook
         public void deleteContact(string firstName) 
         {
             this.contactDictionary.Remove(firstName);
+        }
+        public void addMultipleContacts()
+        {
+            Console.WriteLine("enter number of contacts you would like to add : ");
+            int n=Convert.ToInt32(Console.ReadLine());
+            for(int i = 0; i < n; i++)
+            {
+                Console.WriteLine("Enter details");
+                Console.WriteLine("First Name");
+                string first_name=Console.ReadLine();
+                Console.WriteLine("Last Name");
+                string last_name = Console.ReadLine();
+                Console.WriteLine("Address");
+                string address = Console.ReadLine();
+                Console.WriteLine("City");
+                string city = Console.ReadLine();
+                Console.WriteLine("State");
+                string state = Console.ReadLine();
+                Console.WriteLine("Zip code");
+                string zipcode = Console.ReadLine();
+                Console.WriteLine("Phone Number");
+                string phonenumber = Console.ReadLine();
+                Console.WriteLine("Email");
+                string email = Console.ReadLine();
+                addContact(first_name,last_name,address,city,state,zipcode,phonenumber,email);
+            }
         }
     }
     internal class Program
