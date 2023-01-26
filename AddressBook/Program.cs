@@ -1,10 +1,14 @@
-﻿using Microsoft.VisualBasic;
+﻿using CsvHelper;
+using Microsoft.VisualBasic;
 using Newtonsoft.Json;
+using System.Formats.Asn1;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Transactions;
 
 namespace AddressBook
 {
+    [Serializable]
     public class Contact
     {
         public string firstName;
@@ -88,9 +92,9 @@ namespace AddressBook
     public class AddressBook
     {
         //private List<Contact> contactList;
-        private Dictionary<string, Contact> contactDictionary;
-        private Dictionary<string, List<Contact>> contacttocityDictionary;
-        private Dictionary<string, List<Contact>> contacttostateDictionary;
+        public Dictionary<string, Contact> contactDictionary;
+        public Dictionary<string, List<Contact>> contacttocityDictionary;
+        public Dictionary<string, List<Contact>> contacttostateDictionary;
         public string name;
 
         public void sortbyname()
@@ -304,6 +308,46 @@ namespace AddressBook
             }
             //Console.WriteLine("Done");
         }
+        public void writeToCsv()
+        {
+            string path = @"C:\Users\223089249\source\repos\AddressBook\AddressBookCsv.csv";
+            Console.WriteLine("Writing data to Csv File ...........");
+            using (StreamWriter sw = new StreamWriter(path))
+            {
+                using (var csvWriter = new CsvWriter(sw, CultureInfo.InvariantCulture))
+                {
+                    csvWriter.WriteHeader<Contact>();
+                    csvWriter.NextRecord();
+                    csvWriter.WriteRecords(contactDictionary.Values);
+                }
+            }
+            Console.WriteLine("Done");
+        }
+        public void readFromCsv()
+        {
+            string path = @"C:\Users\223089249\source\repos\AddressBook\AddressBookCsv.csv";
+            Console.WriteLine("Reading data from Json file .......");
+            List<Contact> list;
+            try
+            {
+                using (StreamReader reader = new StreamReader(path))
+                {
+                    using (var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture))
+                    {
+                        list = csvReader.GetRecords<Contact>().ToList();
+                    }
+                }
+
+                foreach (var contact in list)
+                {
+                    contact.print();
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
     }
     internal class Program
     {
@@ -315,8 +359,8 @@ namespace AddressBook
             //contactlist.printAllContacts();
             contactlist.addContact("sparsh", "palak", "park avenue street", "bangalore", "karnataka", "462283", "275163312", "sparars@.com");
             contactlist.addContact("Aarsh", "palak", "park avenue street", "bangalore", "karnataka", "462283", "275163312", "sparars@.com");
-            //contactlist.writeToJson();
-            contactlist.readFromJson();
+            contactlist.writeToCsv();
+            //contactlist.readFromJson();
             
         }
     }
