@@ -11,14 +11,14 @@ namespace AddressBook
     [Serializable]
     public class Contact
     {
-        public string firstName;
-        public string lastName;
-        public string address;
-        public string city;
-        public string state;
-        public string zipcode;
-        public string phoneNumber;
-        public string email;
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public string address { get; set; }
+        public string city { get; set; }
+        public string state { get; set; }
+        public string zipcode { get; set; }
+        public string phoneNumber { get; set; }
+        public string email { get; set; }
 
         public Contact(string firstName, string lastName, string address, string city, string state, string zipcode, string phoneNumber, string email)
         {
@@ -359,9 +359,10 @@ namespace AddressBook
             //contactlist.printAllContacts();
             contactlist.addContact("sparsh", "palak", "park avenue street", "bangalore", "karnataka", "462283", "275163312", "sparars@.com");
             contactlist.addContact("Aarsh", "palak", "park avenue street", "bangalore", "karnataka", "462283", "275163312", "sparars@.com");
-            contactlist.writeToCsv();
+            //contactlist.writeToCsv();
+            contactlist.readFromCsv();
             //contactlist.readFromJson();
-            
+
         }
     }
 }
