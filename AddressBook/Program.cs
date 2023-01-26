@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic;
+using Newtonsoft.Json;
 using System.Runtime.InteropServices;
 using System.Transactions;
 
@@ -276,6 +277,26 @@ namespace AddressBook
                 addContact(first_name,last_name,address,city,state,zipcode,phonenumber,email);
             }
         }
+        public void writeToJson()
+        {
+            Console.WriteLine("Writing data to Json file .......");
+            string path = @"C:\Users\223089249\source\repos\AddressBook\AddressBook.json";
+            string result = JsonConvert.SerializeObject(contactDictionary.Values);
+            File.WriteAllText(path, result);
+            Console.WriteLine("Done");
+        }
+        public void readFromJson()
+        {
+            Console.WriteLine("Reading data from Json file .......");
+            string path = @"C:\Users\223089249\source\repos\AddressBook\AddressBook.json";
+            string toProcess = File.ReadAllText(path);
+            var result= JsonConvert.DeserializeObject<List<Contact>>(toProcess);
+            foreach(var item in result)
+            {
+                item.print();
+            }
+            //Console.WriteLine("Done");
+        }
     }
     internal class Program
     {
@@ -285,28 +306,11 @@ namespace AddressBook
             AddressBook contactlist= new AddressBook("contactlist");
             contactlist.addContact("harsh","jain","h.no.-100","sagar","mp","47983","823879312","hars@.com");
             //contactlist.printAllContacts();
-            //contactlist.editContact("harsh");
             contactlist.addContact("sparsh", "palak", "park avenue street", "bangalore", "karnataka", "462283", "275163312", "sparars@.com");
             contactlist.addContact("Aarsh", "palak", "park avenue street", "bangalore", "karnataka", "462283", "275163312", "sparars@.com");
-            //contactlist.printAllContacts();
-            Console.WriteLine("After Sorting by name ");
-            contactlist.sortbyname();
-            Console.WriteLine(Environment.NewLine);
-            Console.WriteLine("After Sorting by city ");
-            contactlist.sortbycity();
-            Console.WriteLine(Environment.NewLine);
-            Console.WriteLine("After Sorting by zip ");
-            contactlist.sortbyzip();
-            Console.WriteLine(Environment.NewLine);
-            //contactlist.printAllContacts();
-            //contactlist.deleteContact("harsh");
-            //Console.WriteLine("after deletion");
-            //contactlist.printAllContacts();
-            //AddressBookMap.Allpersoninacityacrossalladdressbooks("sagar");
-            //Console.WriteLine($"total people from mp are{AddressBookMap.countAllpersoninastateacrossalladdressbooks("mp")}");
-            //AddressBookMap.Allpersoninastateacrossalladdressbooks("karnataka");
-            //Console.WriteLine("for particular addressbook");
-            //contactlist.contatctinparticularstateinthisaddressbook("mp");
+            //contactlist.writeToJson();
+            contactlist.readFromJson();
+            
         }
     }
 }
