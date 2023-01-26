@@ -287,13 +287,20 @@ namespace AddressBook
         }
         public void readFromJson()
         {
-            Console.WriteLine("Reading data from Json file .......");
-            string path = @"C:\Users\223089249\source\repos\AddressBook\AddressBook.json";
-            string toProcess = File.ReadAllText(path);
-            var result= JsonConvert.DeserializeObject<List<Contact>>(toProcess);
-            foreach(var item in result)
+            try
             {
-                item.print();
+                Console.WriteLine("Reading data from Json file .......");
+                string path = @"C:\Users\223089249\source\repos\AddressBook\AddressBook.json";
+                string toProcess = File.ReadAllText(path);
+                var result = JsonConvert.DeserializeObject<List<Contact>>(toProcess);
+                foreach (var item in result)
+                {
+                    item.print();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
             //Console.WriteLine("Done");
         }
